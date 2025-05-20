@@ -16,10 +16,12 @@ import ProfilePage from '@pages/auth/ProfilePage';
 import ForgotPasswordPage from '@pages/auth/ForgotPasswordPage';
 import UpdatePasswordPage from '@pages/auth/UpdatePasswordPage';
 import AdminProductsPage from '@pages/admin/AdminProductsPage';
+import AdminCreateCategoryPage from '@pages/admin/AdminCreateCategoryPage';
+import AdminCategoriesPage from '@pages/admin/AdminCategoriesPage';
 
 function App() {
   const [cartItemCount, setCartItemCount] = useState(0);
-  
+
   // Função para adicionar ao carrinho
   const handleAddToCart = (product) => {
     setCartItemCount(prevCount => prevCount + 1);
@@ -82,7 +84,31 @@ function App() {
                   <AdminCreateProductPage />
                 </AdminRoute>
               } />
-            <Route            
+            <Route
+              path="/admin/categories"
+              element={
+                <AdminRoute>
+                  <AdminCategoriesPage />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/categories/new"
+              element={
+                <AdminRoute>
+                  <AdminCreateCategoryPage />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/categories/edit/:id"
+              element={
+                <AdminRoute>
+                  <AdminCreateCategoryPage />
+                </AdminRoute>
+              }
+            />
+            <Route
               path="/admin/users"
               element={
                 <AdminRoute>

@@ -4,7 +4,7 @@ const productService = {
   async getProductsByPage(page = 1, limit = 12) {
     const from = (page - 1) * limit;
     const to = from + limit - 1;
-    
+
     const { data, error, count } = await supabase
       .from('products')
       .select('*', { count: 'exact' })
@@ -14,13 +14,13 @@ const productService = {
       console.error('Erro ao buscar produtos:', error);
       throw error;
     }
-    return { 
-      products: data, 
+    return {
+      products: data,
       total: count,
       totalPages: Math.ceil(count / limit)
     };
   },
-  
+
   async getProductById(id) {
     const { data, error } = await supabase
       .from('products')
@@ -33,7 +33,7 @@ const productService = {
     }
     return data;
   },
-  
+
   async createProduct(product) {
     const { data, error } = await supabase
       .from('products')
@@ -45,7 +45,7 @@ const productService = {
     }
     return data[0];
   },
-  
+
   async updateProduct(id, product) {
     const { data, error } = await supabase
       .from('products')
@@ -63,13 +63,14 @@ const productService = {
     const { error } = await supabase
       .from('products')
       .delete()
-      .eq('id', id);    
+      .eq('id', id);
     if (error) {
       console.error('Erro ao deletar produto:', error);
       throw error;
     }
     return true;
-  }
+  },
+
 };
 
 export default productService;
