@@ -1,7 +1,7 @@
 import supabase from './supabase';
 
 const categoryService = {
-  async getCategoriesByPage(page = 1, limit = 10) {
+  async getCategoriesByPage(page = 1, limit = 4) {
     const from = (page - 1) * limit;
     const to = from + limit - 1;
 
@@ -42,7 +42,7 @@ const categoryService = {
     const { data, error } = await supabase
       .from('categories')
       .insert([category])
-      .select('*');
+      .select();
 
     if (error) {
       console.error('Erro ao criar categoria:', error);
