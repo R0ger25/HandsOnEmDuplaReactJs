@@ -14,7 +14,7 @@ const AdminProductsPage = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // Lista de produtos
+  // Lista de produtos com categoria
   const {
     data,
     isLoading: loadingProducts,
@@ -29,7 +29,6 @@ const AdminProductsPage = () => {
   // Manipulador para mudança de página
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    // Rolar para o topo da página
     window.scrollTo(0, 0);
   };
 
@@ -87,6 +86,7 @@ const AdminProductsPage = () => {
                     <tr>
                       <th className="one-line-cell">Foto</th>
                       <th>Nome</th>
+                      <th>Categoria</th> {/* Coluna nova */}
                       <th>Preço</th>
                       <th className="text-center">Ações</th>
                     </tr>
@@ -94,7 +94,7 @@ const AdminProductsPage = () => {
                   <tbody>
                     {data?.products?.length === 0 && (
                       <tr>
-                        <td colSpan={4} className="text-center py-4">
+                        <td colSpan={5} className="text-center py-4">
                           Nenhum produto encontrado.
                         </td>
                       </tr>
@@ -106,9 +106,11 @@ const AdminProductsPage = () => {
                             src={product.image_url}
                             alt={product.title}
                             className="rounded"
-                            style={{ width: 'auto', height: '60px', }} />
+                            style={{ width: 'auto', height: '60px' }}
+                          />
                         </td>
                         <td>{product.title}</td>
+                        <td>{product.category?.name || 'Sem categoria'}</td> {/* Exibe categoria */}
                         <td className="one-line-cell">{formatPrice(product.price)}</td>
                         <td className="text-center one-line-cell px-3">
                           <button

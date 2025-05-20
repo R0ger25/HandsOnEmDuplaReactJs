@@ -7,19 +7,25 @@ const productService = {
 
     const { data, error, count } = await supabase
       .from('products')
-      .select('*', { count: 'exact' })
+      .select(`
+      *,
+      category:categories(name)
+    `, { count: 'exact' })
       .range(from, to)
       .order('title', { ascending: true });
+
     if (error) {
       console.error('Erro ao buscar produtos:', error);
       throw error;
     }
+
     return {
       products: data,
       total: count,
       totalPages: Math.ceil(count / limit)
     };
   },
+
 
   async getProductById(id) {
     const { data, error } = await supabase
@@ -70,6 +76,27 @@ const productService = {
     }
     return true;
   },
+
+  async uploadImage(file) {
+    if (!file) return null;
+
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${crypto.randomUUID()}.${fileExt}`;
+
+    const { error: upErr } = await supabase.storage
+      .from('product-images')
+      .upload(fileName, file);
+
+    if (upErr) throw upErr;
+
+    // Obtem a URL pública do arquivo
+    const { data } = supabase.storage
+      .from('product-images')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
+  }
+
 
 };
 

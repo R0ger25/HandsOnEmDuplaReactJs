@@ -79,6 +79,20 @@ const categoryService = {
     }
 
     return true;
+  },
+  
+  async uploadImage(file) {
+    let image_url;
+    if (file) {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const { error: upErr } = await supabase.storage
+        .from('product-images')
+        .upload(fileName, file);
+      if (upErr) throw upErr;
+      image_url = fileName;
+    }
+    return image_url;
   }
 };
 
